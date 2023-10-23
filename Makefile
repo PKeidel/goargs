@@ -3,6 +3,9 @@
 dev: ## Runs the app locally in dev mode
 	go run -tags debug ./cmd/ --host localhost --debug --user PKeidel
 
+build:
+	go build -o goargsgenerate ./cmd/generate
+
 help: ## Prints all available make commands
 	@grep -E '^[a-zA-Z_-]+:' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":"}; {printf "\033[36m%-30s\033[0m\n", $$1}'
 
@@ -23,6 +26,9 @@ bench: ## Runs the benchmarks
 clean: ## Cleans everything
 	go clean
 	rm ${BINARY_NAME}
+
+fmt:
+	find . -name '*.go' -exec bash -c 'echo "{}"; gofmt -w {}' \;
 
 update-libs: ## Update all go libs
 	go get -u ./...

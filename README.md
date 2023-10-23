@@ -19,7 +19,7 @@ func main() {
 	goargs.Bind(&args)
 
 	goargs.EnvPrefix = ""
-    goargs.ParseWith(
+	goargs.ParseWith(
 		[]string{"test", "--host", "localhost"},
 		os.Environ(),
 	)
@@ -27,6 +27,6 @@ func main() {
 	fmt.Printf("Host: %s\n", args.Host)
 	fmt.Printf("User: %s\n", args.User)
 
-    fmt.Println("To rerun, run:", os.Args[0], goargs.String())
+	fmt.Println("To rerun, run:", os.Args[0], goargs.String())
 }
 ```
