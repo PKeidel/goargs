@@ -8,17 +8,6 @@ import (
 	"strings"
 )
 
-// [x] Support strings
-// [x] Support ints
-// [x] Support flags (bool)
-// [x] Support os.Args parsing
-// [x] Support env parsing
-// [ ] Support config file parsing
-// [ ] Support multi flag to allow arrays like `--host host01 host02`
-// [ ] Detect undefined args
-// [ ] Detect wrong types
-// [x] Support require flag
-
 type ArgType uint8
 type SourceType uint8
 
