@@ -201,6 +201,23 @@ func TestRequiredArguments(t *testing.T) {
 	)
 }
 
+func TestSingleVar01(t *testing.T) {
+	testsetup()
+
+	var (
+		expectedArgs = "--host localhost"
+		host string
+	)
+	WithStringS("host", "h", &host)
+
+	ParseWith(
+		[]string{"test", "-h", "localhost"},
+		[]string{"TEST_USER=PKeidel"},
+	)
+
+	checkString(t, expectedArgs)
+}
+
 func TestBool1(t *testing.T) {
 	testsetup()
 
