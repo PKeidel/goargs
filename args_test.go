@@ -34,12 +34,12 @@ func BenchmarkTest(b *testing.B) {
 	)
 	Bind(&argsHost)
 
-    for i := 0; i < b.N; i++ {
+	for i := 0; i < b.N; i++ {
 		ParseWith(
 			[]string{"test", "--host", "localhost"},
 			[]string{"TEST_USER=PKeidel"},
 		)
-    }
+	}
 }
 
 func TestSingeLongStringCmdArgument(t *testing.T) {
@@ -47,12 +47,12 @@ func TestSingeLongStringCmdArgument(t *testing.T) {
 
 	var (
 		expectedArgs = "--host localhost"
-		argsHost ArgsHost
+		argsHost     ArgsHost
 	)
 
 	Bind(&argsHost)
 
-    ParseWith(
+	ParseWith(
 		[]string{"test", "--host", "localhost"},
 		[]string{"TEST_USER=PKeidel"},
 	)
@@ -69,7 +69,7 @@ func TestSingeLongIntCmdArgument(t *testing.T) {
 
 	Bind(&argsPort)
 
-    ParseWith(
+	ParseWith(
 		[]string{"test", "--port", "2345"},
 		[]string{},
 	)
@@ -82,12 +82,12 @@ func TestSingeShortCmdArgument(t *testing.T) {
 
 	var (
 		expectedArgs = "--host localhost"
-		argsHost ArgsHost
+		argsHost     ArgsHost
 	)
 
 	Bind(&argsHost)
 
-    ParseWith(
+	ParseWith(
 		[]string{"test", "-h", "localhost"},
 		[]string{"TEST_USER=PKeidel"},
 	)
@@ -102,12 +102,12 @@ func TestSourceSortOrderEnvArgs(t *testing.T) {
 
 	var (
 		expectedArgs = "--host hostfromargs"
-		argsHost ArgsHost
+		argsHost     ArgsHost
 	)
 
 	Bind(&argsHost)
 
-    ParseWith(
+	ParseWith(
 		[]string{"-h", "hostfromargs"},
 		[]string{"TEST_HOST=hostfromenv"},
 	)
@@ -122,12 +122,12 @@ func TestSourceSortOrderArgsEnv(t *testing.T) {
 
 	var (
 		expectedArgs = "--host hostfromenv"
-		argsHost ArgsHost
+		argsHost     ArgsHost
 	)
 
 	Bind(&argsHost)
 
-    ParseWith(
+	ParseWith(
 		[]string{"-h", "hostfromargs"},
 		[]string{"TEST_HOST=hostfromenv"},
 	)
@@ -141,12 +141,12 @@ func TestSingeEnv(t *testing.T) {
 
 	var (
 		expectedArgs = "--host hostfromenv"
-		argsHost ArgsHost
+		argsHost     ArgsHost
 	)
 
 	Bind(&argsHost)
 
-    ParseWith(
+	ParseWith(
 		[]string{},
 		[]string{"TEST_HOST=hostfromenv"},
 	)
@@ -162,14 +162,14 @@ func TestALotShortCmdArguments(t *testing.T) {
 		expectedArgs = "--host localhost --port 1234 --user PKeidel"
 		argsHostPort struct {
 			Host string `goargs:"long:host,short:h"`
-			Port int `goargs:"short:p"`
+			Port int    `goargs:"short:p"`
 			User string `goargs:"long:user"`
 		}
 	)
 
 	Bind(&argsHostPort)
 
-    ParseWith(
+	ParseWith(
 		[]string{"test", "-h", "localhost", "-p", "1234"},
 		[]string{"TEST_USER=PKeidel"},
 	)
@@ -180,10 +180,10 @@ func TestALotShortCmdArguments(t *testing.T) {
 func TestRequiredArguments(t *testing.T) {
 	defer func() {
 		// we want a panic()! So if there is no error, the test should fail
-        if r := recover(); r == nil {
+		if r := recover(); r == nil {
 			t.Fatal("Test must panic()! Because a required arg was not provided")
-        }
-    }()
+		}
+	}()
 
 	testsetup()
 
@@ -195,8 +195,29 @@ func TestRequiredArguments(t *testing.T) {
 
 	Bind(&argsHost)
 
-    ParseWith(
+	ParseWith(
 		[]string{"test", "-x", "localhost"},
 		[]string{},
 	)
+}
+
+func TestBool1(t *testing.T) {
+	testsetup()
+
+	var (
+		expectedArgs = "--host localhost --debug"
+		argHostDebug struct {
+			Host string `goargs:"long:host,short:h"`
+			Debug bool
+		}
+	)
+
+	Bind(&argHostDebug)
+
+	ParseWith(
+		[]string{"test", "-h", "localhost", "--debug"},
+		[]string{"TEST_USER=PKeidel"},
+	)
+
+	checkString(t, expectedArgs)
 }
