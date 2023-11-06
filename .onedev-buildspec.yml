@@ -1,0 +1,17 @@
+version: 25
+jobs:
+- name: Go Build
+  steps:
+  - !CommandStep
+    name: GO test
+    runInContainer: true
+    image: golang:1.21-alpine
+    interpreter: !DefaultInterpreter
+      commands:
+      - go test ./...
+    useTTY: false
+    condition: ALWAYS
+  retryCondition: never
+  maxRetries: 3
+  retryDelay: 30
+  timeout: 3600
