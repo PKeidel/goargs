@@ -101,4 +101,7 @@ goargs.Parse()
 [ ] Support config file parsing
 [ ] Detect undefined args
 [ ] Detect wrong types
+[x] Support externally changed values
+[ ] Support values with spaces, quotes, ...
+[ ] Print useage
 ```

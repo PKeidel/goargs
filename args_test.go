@@ -206,7 +206,7 @@ func TestSingleVar01(t *testing.T) {
 
 	var (
 		expectedArgs = "--host localhost"
-		host string
+		host         string
 	)
 	WithStringS("host", "h", &host)
 
@@ -224,7 +224,7 @@ func TestBool1(t *testing.T) {
 	var (
 		expectedArgs = "--host localhost --debug"
 		argHostDebug struct {
-			Host string `goargs:"long:host,short:h"`
+			Host  string `goargs:"long:host,short:h"`
 			Debug bool
 		}
 	)
@@ -236,5 +236,29 @@ func TestBool1(t *testing.T) {
 		[]string{"TEST_USER=PKeidel"},
 	)
 
+	checkString(t, expectedArgs)
+}
+
+func TestExternalChange1(t *testing.T) {
+	testsetup()
+
+	var (
+		expectedArgs = "--host localhost"
+		argHostDebug struct {
+			Host string `goargs:"long:host"`
+		}
+	)
+
+	Bind(&argHostDebug)
+
+	ParseWith(
+		[]string{},
+		[]string{},
+	)
+
+	// now we modify the value directly
+	argHostDebug.Host = "localhost"
+
+	// the new value should be included in the generated string
 	checkString(t, expectedArgs)
 }

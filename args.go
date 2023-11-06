@@ -44,7 +44,7 @@ type Arg struct {
 }
 
 func (a *Arg) HasVal() bool {
-	return a.Source != SourceNotFound
+	return a.refS != nil || a.refI != nil || a.refB != nil
 }
 
 func (a *Arg) Val() interface{} {
