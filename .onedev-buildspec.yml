@@ -3,6 +3,22 @@ jobs:
 - name: Go Build
   steps:
   - !CommandStep
+    name: Print some info
+    runInContainer: true
+    image: golang:1.21-alpine
+    interpreter: !DefaultInterpreter
+      commands:
+      - pwd
+      - ls -l
+    useTTY: false
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  - !CheckoutStep
+    name: Checkout Code
+    cloneCredential: !DefaultCredential {}
+    withLfs: false
+    withSubmodules: false
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  - !CommandStep
     name: GO test
     runInContainer: true
     image: golang:1.21-alpine
