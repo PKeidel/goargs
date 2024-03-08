@@ -16,6 +16,7 @@ type ArgsPort struct {
 
 func testsetup() {
 	log("setup()")
+	EnvPrefix = "GOARG_"
 	DefaultArgs = []*Arg{}
 	DefaultSourceOrder = []SourceType{SourceFile, SourceEnv, SourceArgs}
 }
@@ -199,6 +200,47 @@ func TestRequiredArguments(t *testing.T) {
 		[]string{"test", "-x", "localhost"},
 		[]string{},
 	)
+}
+
+func TestRequiredEnv1(t *testing.T) {
+	testsetup()
+
+	var (
+		expectedArgs = "--host localhost"
+		argsHost     struct {
+			Host string `goargs:"required"`
+		}
+	)
+
+	EnvPrefix = ""
+	Bind(&argsHost)
+
+	ParseWith(
+		[]string{},
+		[]string{"HOST=localhost"},
+	)
+
+	checkString(t, expectedArgs)
+}
+
+func TestRequiredEnv2(t *testing.T) {
+	testsetup()
+
+	var (
+		expectedArgs = "--host localhost"
+		argsHost     struct {
+			Host string `goargs:"required"`
+		}
+	)
+
+	Bind(&argsHost)
+
+	ParseWith(
+		[]string{},
+		[]string{"GOARG_HOST=localhost"},
+	)
+
+	checkString(t, expectedArgs)
 }
 
 func TestSingleVar01(t *testing.T) {

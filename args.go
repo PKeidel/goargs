@@ -191,6 +191,7 @@ func ParseWith(args, envs []string) {
 			parseArgs(args)
 		}
 	}
+	checkRequired()
 }
 
 // Parse will parse the input sources (goargs.DefaultSourceOrder) only once, these values are set for the full program lifetime
@@ -268,8 +269,12 @@ func parseArgs(args []string) {
 				continue
 			}
 		}
+	}
+}
 
-		if argDefinition.Required && !readNextAsValue {
+func checkRequired() {
+	for _, argDefinition := range DefaultArgs {
+		if argDefinition.Required && argDefinition.Source == SourceNotFound {
 			panic("arg is required but was not provided: " + argDefinition.LongName)
 		}
 	}
