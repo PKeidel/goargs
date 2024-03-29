@@ -292,9 +292,9 @@ func String() string {
 	for _, a := range DefaultArgs {
 		if a.HasVal() {
 			if a.Argtype == TypeBool && a.Val().(bool) == true {
-				fmt.Fprintf(&sb, " --%s", a.LongName)
+				_, _ = fmt.Fprintf(&sb, " --%s", a.LongName)
 			} else {
-				fmt.Fprintf(&sb, " --%s %v", a.LongName, a.Val())
+				_, _ = fmt.Fprintf(&sb, " --%s %v", a.LongName, a.Val())
 			}
 		}
 	}

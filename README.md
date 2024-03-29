@@ -15,7 +15,7 @@ fmt.Printf("Host: %s\n", args.Host)
 <details>
   <summary>See full file</summary>
 
-  ```go
+```go
 package main
 
 import (
