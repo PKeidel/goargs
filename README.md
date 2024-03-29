@@ -47,6 +47,8 @@ func main() {
 
 Now you can run your program for example with: `program --user PKeidel -h host01`
 
+`strcase.ToKebab` is applied to all "long" names. So a value like `UserName` will become `--user-name` as an arg.
+
 ## Tags
 There are a few tags to set/overrite the long form, short form and the required flag per field. `long` defaults to the field name in lowercase.
 ```go

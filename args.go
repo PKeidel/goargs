@@ -6,6 +6,8 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+
+	"github.com/iancoleman/strcase"
 )
 
 type ArgType uint8
@@ -95,7 +97,7 @@ func Bind(obj interface{}) {
 
 		var (
 			arg      *Arg
-			longName = strings.ToLower(typ.Field(i).Name)
+			longName = strcase.ToKebab(typ.Field(i).Name)
 		)
 
 		switch ptr := addr.(type) {
